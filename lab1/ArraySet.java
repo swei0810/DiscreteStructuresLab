@@ -20,7 +20,10 @@ public class ArraySet {
      * @param elementsToAdd elements to add to the set
      */
     public ArraySet(String[] elementsToAdd) {
-         // initialize the set by adding all of the elementsToAdd to it
+
+        for(int i=0; i< elementsToAdd.length; i++) {
+          add(elementsToAdd[i]);
+        }
     }
 
     /**
@@ -37,7 +40,12 @@ public class ArraySet {
      * @return true if element is in the set, false otherwise
      */
     public boolean in(String element) {
-        throw new UnsupportedOperationException("implement me!");
+      for (int i=0; i<elements.length; i++) {
+        if (element == elements[i]) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /**
@@ -45,17 +53,38 @@ public class ArraySet {
      * @param element the element to add
      */
     public void add(String element) {
-        throw new UnsupportedOperationException("implement me!");
+      if (!in(element)) { //check if the element is already in the set
+        if (cardinality == capacity()) {   //only double when you reach the capacity
+          String[] copy = Arrays.copyOf(elements, elements.length*2);
+          copy[elements.length] = element;
+          elements = copy;
+        } else {
+          elements[cardinality] = element;
+        }
 
+        cardinality += 1;
+      }
     }
 
     /**
      * Removes one element from the set, modifying the set.
-     * @param element the element to add
+     * @param element the element to remove
      * @throws java.util.NoSuchElementException if element is not in set
      */
     public void remove(String element) {
-        throw new UnsupportedOperationException("implement me!");
+      String[] removed = new String[elements.length];
+
+ // When the array is 1/4 full (cardinality = capacity / 4), then the capacity should be cut in half. You may use the built-in method
+      //cut the size in half?
+      for (int i=0; i<elements.length; i++) {
+        if (element != elements[i]) {
+          removed[i] = elements[i];
+        } else {
+          removed[i] = null;
+        }
+      }
+      elements = removed;
+      cardinality -=1;
     }
 
     /**
@@ -63,7 +92,7 @@ public class ArraySet {
      * @return the size of the set (number of distinct elements)
      */
     public int cardinality() {
-        throw new UnsupportedOperationException("implement me!");
+      return cardinality;
     }
 
     /**
@@ -72,7 +101,15 @@ public class ArraySet {
      * @return a new set equal to the union of this set with otherSet
      */
     public ArraySet union(ArraySet otherSet) {
-        throw new UnsupportedOperationException("implement me!");
+      ArraySet newSet = new ArraySet();
+      for(int i=0; i<elements.length; i++) {
+        newSet.add(elements[i]);
+      }
+
+      for(int i=0; i<otherSet.capacity(); i++) {
+        newSet.add(otherSet.elements[i]);
+      }
+      return newSet;
     }
 
     /**
@@ -81,7 +118,13 @@ public class ArraySet {
      * @return a new set equal to the intersection of this set with otherSet
      */
     public ArraySet intersection(ArraySet otherSet) {
-        throw new UnsupportedOperationException("implement me!");
+      ArraySet newSet = new ArraySet();
+      for (int i=0; i<otherSet.capacity(); i++) {
+        if(in(otherSet.elements[i])) {
+          newSet.add(otherSet.elements[i]);
+        }
+      }
+      return newSet;
     }
 
     /**
@@ -90,7 +133,13 @@ public class ArraySet {
      * @return a new set equal to the difference of this set with otherSet
      */
     public ArraySet difference(ArraySet otherSet) {
-        throw new UnsupportedOperationException("implement me!");
+      ArraySet newSet = new ArraySet(elements);
+      for (int i=0; i<otherSet.capacity(); i++) {
+        if(in(otherSet.elements[i])) {
+          newSet.remove(otherSet.elements[i]);
+        }
+      }
+      return newSet;
     }
 
     /**
@@ -102,9 +151,47 @@ public class ArraySet {
     }
 
     public static void main(String[] args) {
-        ArraySet S = new ArraySet(new String[] {"a", "b", "c"});
-        boolean hasA = S.in("a");
-        System.out.println(hasA? "My array has 'a'": "My array does not have 'a'");
+      ArraySet S = new ArraySet(new String[] {});
+      S.add("dog");
+      boolean hasDog = S.in("dog");
+      System.out.println(hasDog? "My array has 'dog'":"My array does not have 'dog'");
+
+      // ArraySet S = new ArraySet();
+      // S.add("h");
+      // S.add("h"); //should not add this
+      // S.add("a");
+      // boolean hasH = S.in("h");
+      // System.out.println(hasH? "My array has 'h'":"My array does not have 'h'");
+      // boolean hasA = S.in("a");
+      // System.out.println(hasA? "My array has 'a'":"My array does not have 'a'");
+      // S.remove("h");
+      // hasH = S.in("h");
+      // System.out.println(hasH? "My array has 'h'":"My array does not have 'h'");
+
+
+
+        // ArraySet S = new ArraySet(new String[] {"a", "b", "c", "a", "e"});
+        // ArraySet B = new ArraySet(new String[] {"d", "e"});
+        // boolean hasA = S.in("a");
+        // System.out.println(hasA? "My array has 'a'": "My array does not have 'a'");
+        //
+        // ArraySet union = S.union(B);
+        // boolean hasD = union.in("d");
+        // System.out.println(hasD? "My array has 'd'": "My array does not have 'd'");
+        // int card = union.cardinality();
+        // System.out.println(card);
+        //
+        // ArraySet intersection = S.intersection(B);
+        // boolean hasE = intersection.in("e");
+        // System.out.println(hasE? "My array has 'e'": "My array does not have 'e'");
+        //
+        // ArraySet difference = S.difference(B);
+        // hasE = difference.in("e");
+        // System.out.println(hasE? "My array has 'e'": "My array does not have 'e'");
+
+
+
+
          // modify this method however you see fit: add code that will test the correctness of your implementation!
     }
 
