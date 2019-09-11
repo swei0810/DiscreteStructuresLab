@@ -20,10 +20,18 @@ public class ArraySet {
      * @param elementsToAdd elements to add to the set
      */
     public ArraySet(String[] elementsToAdd) {
+      // if(elementsToAdd.length == 0 ) {
+      //   add("element");
+      // }
+      this();
+      // elements = new String[1];
+      // cardinality = 0;
 
         for(int i=0; i< elementsToAdd.length; i++) {
           add(elementsToAdd[i]);
         }
+
+
     }
 
     /**
@@ -40,8 +48,12 @@ public class ArraySet {
      * @return true if element is in the set, false otherwise
      */
     public boolean in(String element) {
+      // if (capacity() == 0) {
+      //   return false;
+      // }
+
       for (int i=0; i<elements.length; i++) {
-        if (element == elements[i]) {
+        if (element.equals(elements[i])) {
           return true;
         }
       }
@@ -174,7 +186,7 @@ public class ArraySet {
         // ArraySet B = new ArraySet(new String[] {"d", "e"});
         // boolean hasA = S.in("a");
         // System.out.println(hasA? "My array has 'a'": "My array does not have 'a'");
-        //
+
         // ArraySet union = S.union(B);
         // boolean hasD = union.in("d");
         // System.out.println(hasD? "My array has 'd'": "My array does not have 'd'");
