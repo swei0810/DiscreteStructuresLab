@@ -1,6 +1,7 @@
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Colgate University COSC 290 Labs
@@ -19,10 +20,23 @@ public class SetsPractice {
      * @return the set of all subsets of input set s
      */
     public static Set<Set<String>> removeX(Set<Set<String>> sets, String x) {
+
         Set<Set<String>> newSet = new HashSet<>();
-        newSet.addAll(sets);
-        newSet.forEach((set) -> set.remove(x));
+        for(Iterator<Set<String>> s = sets.iterator();s.hasNext(); ){
+          Set<String> innerSet = new HashSet<>();
+          Set<String> set = s.next();
+          for(Iterator<String> elementItr = set.iterator(); elementItr.hasNext();) {
+            String element = elementItr.next();
+            if(!element.equals(x)){
+              innerSet.add(element);
+            }
+          }
+          newSet.add(innerSet);
+        }
+        // newSet.addAll(sets);
+        // newSet.forEach((set) -> set.remove(x));
         return newSet;
+
     }
 
     public static void main(String[] args) {
@@ -39,7 +53,7 @@ public class SetsPractice {
         Collections.addAll(sets, S1, S2);
         System.out.println("sets = " + sets);
 
-        Set<Set<String>> setsAfterRemove = removeX(sets, "d");
+        Set<Set<String>> setsAfterRemove = removeX(sets, "a");
         System.out.println("setsAfterRemove = " + setsAfterRemove);
 
     }
