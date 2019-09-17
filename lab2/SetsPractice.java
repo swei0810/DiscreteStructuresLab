@@ -19,7 +19,10 @@ public class SetsPractice {
      * @return the set of all subsets of input set s
      */
     public static Set<Set<String>> removeX(Set<Set<String>> sets, String x) {
-        throw new UnsupportedOperationException("implement me!");
+        Set<Set<String>> newSet = new HashSet<>();
+        newSet.addAll(sets);
+        newSet.forEach((set) -> set.remove(x));
+        return newSet;
     }
 
     public static void main(String[] args) {
@@ -36,7 +39,7 @@ public class SetsPractice {
         Collections.addAll(sets, S1, S2);
         System.out.println("sets = " + sets);
 
-        Set<Set<String>> setsAfterRemove = removeX(sets, "a");
+        Set<Set<String>> setsAfterRemove = removeX(sets, "d");
         System.out.println("setsAfterRemove = " + setsAfterRemove);
 
     }
