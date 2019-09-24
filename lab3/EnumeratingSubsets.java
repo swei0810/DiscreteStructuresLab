@@ -39,24 +39,19 @@ public class EnumeratingSubsets {
           Set<String> innerSet = itr.next();
           Iterator<String> innerSetItr = innerSet.iterator();
           Set<String> newInnerSet = new HashSet<>();
-            while(innerSetItr.hasNext()){
-              String innerElement = innerSetItr.next();
-              if(innerElement!=null){
-                newInnerSet.add(innerElement);
-                newInnerSet.add(element);
-                subsets.add(newInnerSet);
-              }
-            }
+          while(innerSetItr.hasNext()){
+            String innerElement = innerSetItr.next();
+            newInnerSet.add(innerElement);
+            newInnerSet.add(element);
+            subsets.add(newInnerSet);
+          }
         }
 
-        // add first element set
+        // add first element set and empty set
         Set<String> s = new HashSet<>();
         s.add(element);
-        System.out.println("s: " + s);
-        System.out.println(subsets);
         subsets.add(s);
-        System.out.println(subsets);
-
+        subsets.add(new HashSet<>());
         return subsets;
     }
 
@@ -68,12 +63,15 @@ public class EnumeratingSubsets {
      * @return all subsets of size k from set s
      */
     // public static Set<Set<String>> allSubsetsOfSize(Set<String> s, int k) {
-    //   // Set<Set<String>> validSubSets = new HashSet<>();
-    //   // Set<Set<String>> powerSets = allSubsets(s);
-    //   // Iterator<Set<String>> itr = s.iterator();
-    //   // while () {
-    //   //
-    //   // }
+    //   Set<Set<String>> validSubSets = new HashSet<>();
+    //   Set<Set<String>> powerSets = allSubsets(s);
+    //   /* I was thinking of using a comparator object to sort the arrays by size and
+    //   loop through until we reach a size > 0, keeping track of the index and
+    //    looping through again this time adding the powerSetArray[i] to validSubSets.
+    //   Object[] powerSetArray = powerSets.toArray();
+    //   Comparator compareSizes =
+    //   Arrays.sort(powerSetArray, c);
+    //   */
     //
     //   return ;
     // }
@@ -94,9 +92,9 @@ public class EnumeratingSubsets {
         Set<String> S = EnumeratingSubsets.makeSet("a", "b", "c");
         Set<Set<String>> S2 = new HashSet<>(new HashSet<>());
         // System.out.println("S = " + S);
-        // Set<Set<String>> s = allSubsets(S);
+        Set<Set<String>> s = allSubsets(S);
         System.out.println(unionSetElements("a",S2));
-        // System.out.println("allSubsets method returns " + s +"Size: "+s.size());
+        System.out.println("allSubsets method returns " + s +"Size: "+s.size());
 
     }
 
