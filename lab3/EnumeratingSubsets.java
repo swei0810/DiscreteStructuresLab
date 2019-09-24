@@ -14,7 +14,50 @@ public class EnumeratingSubsets {
      * @return the set of all subsets of input set s
      */
     public static Set<Set<String>> allSubsets(Set<String> s) {
-        throw new UnsupportedOperationException("implement me!");
+        if(s.size()==0){
+          return new HashSet<>(new HashSet<>());
+        }else{
+          Iterator<String> itr = s.iterator();
+          String firstElement = itr.next();
+          Set<String> s2 = new HashSet<>();
+          while(itr.hasNext()){
+            s2.add(itr.next());
+          }
+          System.out.println("First Element: "+firstElement+" S2 : "+s2);
+          Set<Set<String>> powerSet = unionSetElements(firstElement,allSubsets(s2));
+          return powerSet;
+        }
+    }
+
+
+    public static Set<Set<String>> unionSetElements(String element, Set<Set<String>> subsets) {
+
+        Set<Set<String>> copySubsets = new HashSet<>();
+        copySubsets.addAll(subsets);
+        Iterator<Set<String>> itr = copySubsets.iterator();
+        while(itr.hasNext()){
+          Set<String> innerSet = itr.next();
+          Iterator<String> innerSetItr = innerSet.iterator();
+          Set<String> newInnerSet = new HashSet<>();
+            while(innerSetItr.hasNext()){
+              String innerElement = innerSetItr.next();
+              if(innerElement!=null){
+                newInnerSet.add(innerElement);
+                newInnerSet.add(element);
+                subsets.add(newInnerSet);
+              }
+            }
+        }
+
+        // add first element set
+        Set<String> s = new HashSet<>();
+        s.add(element);
+        System.out.println("s: " + s);
+        System.out.println(subsets);
+        subsets.add(s);
+        System.out.println(subsets);
+
+        return subsets;
     }
 
     /**
@@ -24,9 +67,16 @@ public class EnumeratingSubsets {
      * @param k the desired number of elements in each subset
      * @return all subsets of size k from set s
      */
-    public static Set<Set<String>> allSubsetsOfSize(Set<String> s, int k) {
-        throw new UnsupportedOperationException("implement me!");
-    }
+    // public static Set<Set<String>> allSubsetsOfSize(Set<String> s, int k) {
+    //   // Set<Set<String>> validSubSets = new HashSet<>();
+    //   // Set<Set<String>> powerSets = allSubsets(s);
+    //   // Iterator<Set<String>> itr = s.iterator();
+    //   // while () {
+    //   //
+    //   // }
+    //
+    //   return ;
+    // }
 
     /**
      * Utility for making a new set: see usage in main method below.
@@ -41,9 +91,12 @@ public class EnumeratingSubsets {
 
     public static void main(String[] args) {
         // a little demonstration of the methods
-        Set<String> S = EnumeratingSubsets.makeSet("a", "b");
-        System.out.println("S = " + S);
-        System.out.println("allSubsets method returns " + allSubsets(S));
+        Set<String> S = EnumeratingSubsets.makeSet("a", "b", "c");
+        Set<Set<String>> S2 = new HashSet<>(new HashSet<>());
+        // System.out.println("S = " + S);
+        // Set<Set<String>> s = allSubsets(S);
+        System.out.println(unionSetElements("a",S2));
+        // System.out.println("allSubsets method returns " + s +"Size: "+s.size());
 
     }
 
