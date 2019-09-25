@@ -74,6 +74,9 @@ public class ArraySet {
      * @throws java.util.NoSuchElementException if element is not in set
      */
     public void remove(String element) {
+      if (!in(element)) {
+        throw new UnsupportedOperationException("can't remove something that doens't exist!");
+      }
       String[] removed = new String[elements.length];
       for (int i=0; i<elements.length; i++) {
         if (element != elements[i]) {
@@ -137,13 +140,21 @@ public class ArraySet {
      * @return a new set equal to the difference of this set with otherSet
      */
     public ArraySet difference(ArraySet otherSet) {
-      ArraySet newSet = new ArraySet(elements);
+      ArraySet newSet = new ArraySet();
       for (int i=0; i<otherSet.capacity(); i++) {
-        if(in(otherSet.elements[i])) {
-          newSet.remove(otherSet.elements[i]);
+        if (!in(otherSet.elements[i])) {
+          newSet.add(elements[i]);
         }
       }
       return newSet;
+
+      // ArraySet newSet = new ArraySet(elements);
+      // for (int i=0; i<otherSet.capacity(); i++) {
+      //   if(in(otherSet.elements[i])) {
+      //     newSet.remove(otherSet.elements[i]);
+      //   }
+      // }
+      // return newSet;
     }
 
     /**
@@ -174,8 +185,8 @@ public class ArraySet {
 
 
         //
-        // ArraySet S = new ArraySet(new String[] {"a", "b", "c", "a", "e"});
-        // ArraySet B = new ArraySet(new String[] {"d", "e"});
+        ArraySet S = new ArraySet(new String[] {"a", "b", "c", "a", "e"});
+        ArraySet B = new ArraySet(new String[] {"d", "e"});
         // boolean hasA = S.in("a");
         // System.out.println(hasA? "My array has 'a'": "My array does not have 'a'");
         //
@@ -189,15 +200,20 @@ public class ArraySet {
         // boolean hasE = intersection.in("e");
         // System.out.println(hasE? "My array has 'e'": "My array does not have 'e'");
         //
-        // ArraySet difference = S.difference(B);
-        // hasE = difference.in("e");
-        // System.out.println(hasE? "My array has 'e'": "My array does not have 'e'");
+        ArraySet difference = S.difference(B);
+        boolean hasE = difference.in("e");
+        boolean hasD = difference.in("d");
+        boolean hasOriginalE = S.in("e");
+        System.out.println(hasE? "My array has 'e'": "My array does not have 'e'");
+        System.out.println(hasD? "My array has 'd'": "My array does not have 'd'");
+        System.out.println(hasOriginalE? "My original has 'e'": "My original array does not have 'e'");
+
 
         //Removing, resize it
         // ArraySet S = new ArraySet(new String[] {"1", "2", "3", "4", "5", "6", "7", "8"});
         // int cap = S.capacity();
         // System.out.println(cap);
-        // S.remove("8");
+        // S.remove("9");
         // S.remove("7");
         // S.remove("6");
         // S.remove("5");
