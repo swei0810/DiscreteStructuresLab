@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.print.attribute.HashAttributeSet;
+
 /**
  * Colgate University COSC 290 Labs
  * Version 0.1,  2017
@@ -23,7 +25,6 @@ public class EnumeratingSubsets {
           while(itr.hasNext()){
             s2.add(itr.next());
           }
-          // System.out.println("First Element: "+firstElement+" S2 : "+s2);
           Set<Set<String>> powerSet = unionSetElements(firstElement,allSubsets(s2));
           return powerSet;
         }
@@ -62,10 +63,11 @@ public class EnumeratingSubsets {
      * @return all subsets of size k from set s
      */
     public static Set<Set<String>> allSubsetsOfSize(Set<String> s, int k) {
-      if (k==0) {
-        return new HashSet<>(new HashSet<>());
-      }
-      if (k==s.size()){
+      if (k==0 || s.isEmpty()){
+        Set<Set<String>> set = new HashSet<>();
+        set.add(new HashSet<>());
+        return set;
+      }else if (k==s.size()){
         Set<Set<String>> set = new HashSet<>();
         set.add(s);
         return set;
@@ -77,27 +79,25 @@ public class EnumeratingSubsets {
         while(itr.hasNext()){
           s2.add(itr.next());
         }
-        System.out.println("Set: "+ s2);
-        Set<Set<String>> s3 = allSubsetsOfSize(s2,k-1);
-        Set<Set<String>> sets = union(firstElement,s3, k-1);
-        //sets.addAll(union(firstElement,allSubsetsOfSize(s2,k-1), k-1));
+        Set<Set<String>> sets = new HashSet<>();
+        sets.addAll(union(firstElement,allSubsetsOfSize(s2,k-1), k-1));
         sets.addAll(allSubsetsOfSize(s2,k));
-        System.out.println("sets: " + sets);
         return sets;
       }
     }
 
     public static Set<Set<String>> union(String element, Set<Set<String>> subsets, int k) {
 
-            // Set<Set<String>> copySubsets = new HashSet<>();
-            //copySubsets.addAll(subsets);
-            System.out.println("Element: "+element + "Subsets: "+subsets);
             Iterator<Set<String>> itr = subsets.iterator();
             while(itr.hasNext()){
               Set<String> innerSet = itr.next();
               innerSet.add(element);
             }
-            System.out.println("Subsets: "+subsets);
+            if(subsets.isEmpty()){
+              Set<String> s = new HashSet<>();
+              s.add(element);
+              subsets.add(s);
+            }
             return subsets;
       }
 
@@ -117,7 +117,7 @@ public class EnumeratingSubsets {
     public static void main(String[] args) {
         // a little demonstration of the methods
         Set<String> S = EnumeratingSubsets.makeSet("a", "b", "c", "d");
-        Set<Set<String>> S2 = new HashSet<>(new HashSet<>());
+        Set<String> S2 = new HashSet<>();
         // System.out.println("S = " + S);
         Set<Set<String>> s = allSubsets(S);
         // System.out.println(unionSetElements("a",S2));
@@ -126,6 +126,22 @@ public class EnumeratingSubsets {
         int k = 3;
         Set<Set<String>> s3 = allSubsetsOfSize(S, k);
         System.out.println("All subsets of size" + k +"returns"  + s3);
+
+        k = 2;
+        s3 = allSubsetsOfSize(S, k);
+        System.out.println("All subsets of size" + k +"returns"  + s3);
+
+        k = 1;
+        s3 = allSubsetsOfSize(S, k);
+        System.out.println("All subsets of size" + k +"returns"  + s3);
+
+        k = 0;
+        s3 = allSubsetsOfSize(S, k);
+        System.out.println("All subsets of size" + k +" returns"  + s3);
+
+        k = 2;
+        s3 = allSubsetsOfSize(S2, k);
+        System.out.println("All subsets of size" + k +" returns"  + s3);
 
     }
 
