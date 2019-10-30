@@ -109,15 +109,9 @@ public class NormalForms {
     }
 
     public static Proposition DistributeOr(Proposition alpha, Proposition beta){
-      // System.out.println("alpha: " + alpha);
-      // System.out.println("Distribute Or "+alpha.getFirst());
-      Proposition alpha
       if (alpha.isVariable() && beta.isVariable()) {
         return Or(alpha, beta);
-      }else if(alpha.isVariable()) {
-
-      }
-      || beta.isVariable()) && alpha.getFirst().isOrProposition()||beta.getFirst().isOrProposition()){
+      }else if(alpha.isOrProposition() || beta.isOrProposition()){
         return Or(alpha,beta);
       }else {
         return And(Or(alpha.getFirst(), beta), Or(alpha.getSecond(), beta));
@@ -144,7 +138,7 @@ public class NormalForms {
         PropVariable q = new PropVariable("q");
         PropVariable r = new PropVariable("r");
 
-        Proposition psi = Build.disj(Build.neg(Build.neg(p)),q);
+        Proposition psi = Build.neg(Build.disj(Build.neg(Build.neg(p)),q));
         Proposition alpha = Build.neg(Build.conj(Build.neg(p), Build.neg(q)));
         Proposition alpha2 = Build.neg(Build.conj(p, q));
         Proposition beta = Build.disj(p,q);
@@ -158,29 +152,11 @@ public class NormalForms {
         Proposition z = Build.neg(Build.neg(p));
 
         Proposition recursiveAnd = Build.neg(Build.conj(Build.neg(p), Build.neg(q)));
-        //System.out.println(nnf);
 
-        // System.out.println("Phi:"+phi);
-        // System.out.println("Phi NNF:"+toNNF(phi));
-        // //phi = Build.conj(alpha,beta);
-        // //Proposition psi = alpha;
-        // System.out.println("Psi:"+psi);
-        // System.out.println("Psi NNF: "+toNNF(psi));
-        // System.out.println("Theta"+theta);
-        // theta = simplify(theta);
-        // System.out.println("Theta IF: "+theta);
-        // System.out.println("Theta NNF: "+toNNF(theta));
-        // System.out.println("Gamma: " + gamma);
-        // System.out.println("Gamma NNF:" + toNNF(gamma));
-        // System.out.println("Psi: " + psi);
-        // System.out.println("Psi NNF:" + toNNF(psi));
+        // System.out.println(testNNF+": "+fromNNFtoCNF(testNNF));
+        // System.out.println(nnf + ": " + fromNNFtoCNF(nnf));
+        System.out.println(theta + ": " + toCNF(theta));
 
-        // System.out.print
-        // System.out.println(beta +": "+toNNF(beta));
-        // System.out.println(beta +": "+toNNF(beta));
-
-        System.out.println(testNNF+": "+fromNNFtoCNF(testNNF));
-        System.out.println(nnf + ": " + fromNNFtoCNF(nnf));
 
 
     }
