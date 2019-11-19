@@ -55,7 +55,20 @@ public class BloomFilter<E> {
      * @return the k that minimizes the false positive rate
      */
     public static int selectBestKParameter(int m, int n) {
-        throw new UnsupportedOperationException("implement me!");
+        double doubleM = (double) m;
+        double doubleN = (double) n;
+        double minFp = 999999999999.0;
+        int minFpKval = 0;
+        for (int k = 1; k<=100; k++) {
+          double probOneZero = Math.pow(Math.pow((doubleM-1)/doubleM,k),doubleN);
+          double fp = Math.pow((1-probOneZero), k);
+          // System.out.println(fp);
+          if (fp < minFp) {
+            minFp = fp;
+            minFpKval = k;
+          }
+        }
+        return minFpKval;
     }
 
     /**
@@ -102,6 +115,7 @@ public class BloomFilter<E> {
         System.out.println("Lookup 1: " + bf.lookUp(1));  // true because it checks slots 1 and 2, both marked
 
         System.out.println("False positive rate: " + runExperiment());
+        System.out.println(selectBestKParameter(1000000, 100000));
     }
 
 }
