@@ -29,7 +29,19 @@ public class Relations {
         if (n2 != n3) {
             throw new UnsupportedOperationException("Number of columns of R must match number of rows of S");
         }
-        throw new UnsupportedOperationException("implement me!");
+        boolean[][] compose = new boolean[n1][n2];
+        for(int i =0; i<n1; i++){
+          for(int j=0; j<n2; j++){
+            for(int k =0; k<n4; k++){
+              //System.out.println("i: "+i+" j: "+j+" k: "+k+" R: "+R[i][j]+" S: " + S[j][k]);
+              if(R[i][j]==true && S[j][k]== true){
+                compose[i][k] = true;
+              }
+            }
+          }
+        }
+
+        return compose;
     }
 
     /**
@@ -50,7 +62,25 @@ public class Relations {
         if (n1 != n3 || n2 != n4) {
             throw new UnsupportedOperationException("array dimensions must match!");
         }
-        throw new UnsupportedOperationException("implement me!");
+        boolean[][] union = new boolean[n1][n2];
+
+        for(int i=0; i<R.length; i++) {
+          for(int j=0; j<R[i].length; j++) {
+            if(R[i][j] == true) {
+              union[i][j] = true;
+            }
+          }
+        }
+
+        for(int i=0; i<S.length; i++) {
+          for(int j=0; j<S[i].length; j++) {
+            if(S[i][j]==true){
+              union[i][j] = true;
+            }
+          }
+        }
+
+        return union;
     }
 
     /**
@@ -64,7 +94,18 @@ public class Relations {
         if (R[0].length != n) {
             throw new UnsupportedOperationException("expecting an n by n boolean double array!");
         }
-        throw new UnsupportedOperationException("implement me!");
+        boolean[][] T = R;
+        for(int i=0;i<n;i++){
+          T=composeAndUnion(T,R);
+        }
+
+        return T;
+
+    }
+    public static boolean[][] composeAndUnion(boolean[][] T, boolean[][]R){
+      boolean[][] compose = compose(R,T);
+      boolean[][] union = union(T, compose);
+      return union;
     }
 
     // --- useful tools for debugging are provided below  ---
@@ -122,6 +163,19 @@ public class Relations {
 
     public static void main(String[] args) {
          // test your implementation here!
-        throw new UnsupportedOperationException("implement me!");
+        boolean[][] R = makeChain(3);
+        // R[0][0] = true;
+        boolean[][] S = makeChain(3);
+        boolean[][] union = union(R, S);
+        boolean[][] compose = compose(S, R);
+        boolean[][] transitiveClosure = transitiveClosure(R);
+        System.out.println(doubleArrayToString(R));
+        System.out.println(doubleArrayToString(S));
+        // System.out.println(doubleArrayToString(union));
+        System.out.println(doubleArrayToString(compose));
+        System.out.println(doubleArrayToString(transitiveClosure));
+
+
+        // throw new UnsupportedOperationException("implement me!");
     }
 }
