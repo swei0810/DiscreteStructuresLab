@@ -163,15 +163,15 @@ public class Relations {
 
     public static void main(String[] args) {
          // test your implementation here!
-        boolean[][] R = makeChain(3);
+        boolean[][] R = makeChain(8);
         // R[0][0] = true;
-        boolean[][] S = makeChain(3);
+        boolean[][] S = makeChain(8);
         boolean[][] union = union(R, S);
         boolean[][] compose = compose(S, R);
         boolean[][] transitiveClosure = transitiveClosure(R);
         System.out.println(doubleArrayToString(R));
         System.out.println(doubleArrayToString(S));
-        // System.out.println(doubleArrayToString(union));
+        System.out.println(doubleArrayToString(union));
         System.out.println(doubleArrayToString(compose));
         System.out.println(doubleArrayToString(transitiveClosure));
 
